@@ -1,0 +1,30 @@
+{
+  "name": "r-sandbox",
+  "version": "1.0.0",
+  "description": "Testing E2B sandbox with R language",
+  "main": "r_test.js",
+  "type": "module",
+  "scripts": {
+    "test": "node r_test.js",
+    "test:simple": "node simple_r_test.js",
+    "test:meta": "node meta_r_test.js",
+    "save-plots": "node base64_plots.js",
+    "llm": "node llm_r_interpreter.js",
+    "interactive": "node interactive_r.js",
+    "modeling": "node r_modeling_assistant.js",
+    "prompt": "node r_prompt_engineering.js",
+    "upload": "node file_utils.js",
+    "analyze": "node data_analysis_demo.js",
+    "advanced": "node advanced_r_interpreter.js",
+    "r": "node r_cli.js"
+  },
+  "bin": {
+    "r-sandbox": "./r_cli.js"
+  },
+  "dependencies": {
+    "@e2b/code-interpreter": "latest"
+  },
+  "devDependencies": {
+    "dotenv": "^16.4.7"
+  }
+}

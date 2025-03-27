@@ -1,0 +1,176 @@
+---
+title: "E2B R Sandbox Report"
+author: "LLM-Generated Analysis"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    theme: cosmo
+    highlight: tango
+    code_folding: show
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+```
+
+## Introduction
+
+This is an automatically generated report from the E2B R Sandbox. It demonstrates the capability to run R Markdown documents and generate HTML reports.
+
+## Data Analysis
+
+First, let's load the necessary packages:
+
+```{r packages}
+# Load necessary packages
+if (!require("ggplot2")) install.packages("ggplot2", repos="https://cloud.r-project.org/")
+if (!require("dplyr")) install.packages("dplyr", repos="https://cloud.r-project.org/")
+library(ggplot2)
+library(dplyr)
+```
+
+Now, let's load and explore the data:
+
+```{r data}
+# Check if we have data in the data directory
+data_dir <- "/home/user/data"
+if (dir.exists(data_dir) && length(list.files(data_dir)) > 0) {
+  # List data files
+  data_files <- list.files(data_dir, full.names = TRUE)
+  
+  # Try to load the first CSV file
+  csv_files <- grep("\\.csv$", data_files, value = TRUE)
+  
+  if (length(csv_files) > 0) {
+    data <- read.csv(csv_files[1])
+    cat("Loaded data from:", csv_files[1])
+  } else {
+    # Use built-in dataset if no CSV file
+    data(mtcars)
+    data <- mtcars
+    data$car_name <- rownames(mtcars)
+    cat("No CSV files found, using mtcars dataset")
+  }
+} else {
+  # Use built-in dataset
+  data(mtcars)
+  data <- mtcars
+  data$car_name <- rownames(mtcars)
+  cat("No data directory or empty directory, using mtcars dataset")
+}
+
+# Display dataset dimensions
+cat("\nDataset dimensions:", dim(data)[1], "rows x", dim(data)[2], "columns\n")
+
+# Show a preview of the data
+head(data)
+```
+
+## Exploratory Data Analysis
+
+Let's generate some summary statistics:
+
+```{r summary}
+# Summary statistics
+summary(data)
+```
+
+Now, let's visualize the data:
+
+```{r visualize}
+# Create data-specific plots
+if ("mpg" %in% names(data) && "hp" %in% names(data) && "cyl" %in% names(data)) {
+  # This is the mtcars dataset, create car-specific plots
+  
+  # MPG vs HP by cylinder count
+  ggplot(data, aes(x = hp, y = mpg, color = factor(cyl))) +
+    geom_point(size = 3, alpha = 0.7) +
+    labs(
+      title = "Relationship between Horsepower and Fuel Efficiency",
+      x = "Horsepower (hp)",
+      y = "Miles per Gallon (mpg)",
+      color = "Cylinders"
+    ) +
+    theme_minimal() +
+    scale_color_viridis_d()
+  
+} else {
+  # Generic plots for other datasets
+  # Select two numeric columns for a scatter plot
+  numeric_cols <- sapply(data, is.numeric)
+  if (sum(numeric_cols) >= 2) {
+    numeric_names <- names(data)[numeric_cols]
+    x_col <- numeric_names[1]
+    y_col <- numeric_names[2]
+    
+    # Create scatter plot
+    ggplot(data, aes_string(x = x_col, y = y_col)) +
+      geom_point(alpha = 0.7) +
+      labs(
+        title = paste("Relationship between", x_col, "and", y_col),
+        x = x_col,
+        y = y_col
+      ) +
+      theme_minimal()
+  } else {
+    cat("Not enough numeric columns for visualization")
+  }
+}
+```
+
+## Statistical Analysis
+
+Let's perform some basic statistical analysis:
+
+```{r statistics}
+# For mtcars dataset
+if ("mpg" %in% names(data) && "hp" %in% names(data) && "wt" %in% names(data)) {
+  # Linear model
+  model <- lm(mpg ~ hp + wt, data = data)
+  
+  # Model summary
+  summary(model)
+  
+  # Diagnostic plots
+  par(mfrow = c(2, 2))
+  plot(model)
+  
+} else {
+  # For other datasets, try to create a model with the first numeric column as response
+  numeric_cols <- sapply(data, is.numeric)
+  if (sum(numeric_cols) >= 2) {
+    numeric_names <- names(data)[numeric_cols]
+    response <- numeric_names[1]
+    predictors <- numeric_names[2:min(4, length(numeric_names))]
+    
+    # Create formula
+    formula_str <- paste(response, "~", paste(predictors, collapse = " + "))
+    cat("Creating model:", formula_str, "\n")
+    
+    # Linear model
+    model <- lm(as.formula(formula_str), data = data)
+    
+    # Model summary
+    summary(model)
+    
+    # Diagnostic plots
+    par(mfrow = c(2, 2))
+    plot(model)
+  } else {
+    cat("Not enough numeric columns for statistical modeling")
+  }
+}
+```
+
+## Conclusion
+
+This report demonstrates the capabilities of the E2B R Sandbox for generating automated reports from data. The system can:
+
+1. Load and process data from various sources
+2. Generate visualizations based on the data characteristics
+3. Perform statistical analysis and modeling
+4. Present results in a well-formatted HTML report
+
+For more advanced analyses, you can customize this template or use the LLM-powered R code generation to create specialized reports for your specific needs.
