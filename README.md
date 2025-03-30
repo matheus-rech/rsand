@@ -1,182 +1,182 @@
-# R Language E2B Sandbox with LLM Integration
+# R Interpreter
 
-This project demonstrates how to run R code in an E2B sandbox environment, showcasing R's specialized capabilities like data visualization, statistical modeling, and meta-analysis. The project now includes LLM (Large Language Model) integration to generate high-quality R code from natural language prompts.
+A natural language to R code execution system that allows you to interact with R programming through conversation.
+
+## Features
+
+- **Natural Language Interface**: Ask questions in plain English about data analysis, statistics, or visualization
+- **R Code Generation**: Uses Claude 3.7 Sonnet to generate executable R code
+- **Sandboxed Execution**: Safely executes R code in an isolated E2B sandbox environment
+- **Interactive Visualizations**: View and interact with generated plots
+- **Conversation Context**: Maintains conversation history for contextual responses
+- **File Upload**: Upload your own data files for analysis (CSV, Excel, JSON, etc.)
+- **Package Installation**: Install and use any R package from CRAN
+- **Data Export**: Save and download analysis results
+
+## Architecture
+
+The application follows a hybrid architecture with:
+
+- **Frontend**: Next.js/React for a modern, responsive UI
+- **Backend**: Python FastAPI service for orchestration
+- **LLM**: Claude 3.7 Sonnet API for natural language to R code translation
+- **Sandbox**: E2B sandbox for safe R code execution
+
+## Prerequisites
+
+- Python 3.8+ with pip
+- Node.js 18+ with npm
+- Anthropic API key for Claude
+- E2B API key for sandbox execution
 
 ## Setup
 
-1. Get an E2B API key from [https://e2b.dev](https://e2b.dev)
+### Local Development Setup
 
-2. For LLM integration, obtain API keys from:
-   - OpenAI: [https://openai.com](https://openai.com)
-   - Anthropic (optional): [https://anthropic.com](https://anthropic.com)
+1. Clone the repository:
+   ```
+   git clone <repository-url>
+   cd r_interpreter
+   ```
 
-3. Copy the example environment file and set your API keys:
+2. Set up environment variables:
+   ```
+   cp .env.example .env
+   # Edit .env file with your API keys
+   ```
+
+3. Run the application:
+   ```
+   ./run.sh
+   ```
+
+   This will start both the backend and frontend services.
+
+4. Open your browser and navigate to:
+   ```
+   http://localhost:3000
+   ```
+
+### Production Deployment
+
+For production deployment, you have several options:
+
+#### Docker Compose Deployment (Recommended)
+
+1. Set up environment variables:
+   ```
+   cp .env.example .env
+   # Edit .env file with your API keys
+   ```
+
+2. Run the deployment script:
+   ```
+   ./deploy.sh
+   ```
+
+3. Access the application:
+   ```
+   Backend: http://your-server-ip:8000
+   Frontend: http://your-server-ip:3000
+   ```
+
+#### Cloud Deployment
+
+See the detailed [Deployment Guide](./frontend/src/components/rsandbox-2/DEPLOYMENT.md) for options including:
+
+- Heroku deployment
+- Digital Ocean App Platform
+- Vercel + separate backend
+- Netlify + separate backend
+
+## Using the Application
+
+### Basic Usage
+1. Type your R-related question in the chat input
+2. The system will generate and execute R code
+3. View the results, including console output and plots
+
+### Working with Your Own Data
+1. Click the "Upload File" button in the header
+2. Select a file from your computer (CSV, Excel, JSON, etc.)
+3. After upload, ask questions about the data
+4. Example: "Analyze the trends in the data I just uploaded"
+
+### Installing Packages
+You can request any package from CRAN. The system will install it automatically.
+Example: "Can you use the tidymodels package to build a prediction model?"
+
+### Creating Visualizations
+Ask for specific plots or let the system choose appropriate visualizations.
+Example: "Create a scatter plot matrix of the iris dataset colored by species"
+
+### Exporting Results
+Results can be saved to files for download.
+Example: "Save the model as an RDS file so I can download it"
+
+## Project Structure
+
 ```
-cp .env.example .env
-# Edit the .env file with your API keys
-```
-
-4. Install dependencies:
-```
-npm install
-```
-
-## Running the Examples
-
-### Basic R Tests
-```
-npm test                # Run the full R visualization test
-npm run test:simple     # Run a simplified test
-npm run test:meta       # Run a meta-analysis test
-npm run save-plots      # Generate and save plots locally
-```
-
-### LLM-Integrated R Interpreter
-```
-npm run llm             # Run an R code generation example
-npm run interactive     # Start an interactive R code generation session
-npm run modeling        # Run a statistical modeling task
-npm run prompt          # Use the prompt engineering utility to craft effective prompts
-npm run upload          # Upload your own data files and analyze them
-npm run analyze         # Run a complete data analysis workflow demonstration
-npm run advanced        # Run an advanced R analysis with streaming output
-npm run r -- help       # Use the comprehensive R CLI tool
-```
-
-### R Command-Line Interface (CLI)
-```
-# Show help and available commands
-npm run r -- help
-
-# Run R code from a file
-npm run r -- run --file path/to/script.R --data path/to/data/dir
-
-# Generate and run R code from a prompt
-npm run r -- prompt --prompt "Analyze the mtcars dataset" --output ./results
-
-# Start an interactive R session with LLM assistance
-npm run r -- interactive
-```
-
-## LLM Integration Features
-
-### 1. Natural Language to R Code Generation
-- Convert plain English prompts into executable R code
-- Specify data analysis tasks without writing code
-- Automated code correction and refinement
-
-### 2. Interactive R Environment
-- Interactive session for continual data analysis
-- Save history of generated code and results
-- Download generated plots and visualizations
-
-### 3. Specialized Statistical Modeling
-- Generate code for complex statistical models
-- Automated machine learning workflow
-- Model evaluation and diagnostics
-
-### 4. Prompt Engineering Utility
-- Guided template-based prompt creation
-- Task-specific prompt templates
-- Prompt testing and refinement workflow
-- Save and reuse effective prompts
-- See [example_prompts.md](example_prompts.md) for sample prompts
-
-### 5. Custom Dataset Analysis
-- Upload your own data files (CSV, Excel, RDS, etc.)
-- Automatic code generation for loading different file formats
-- LLM-powered analysis of your custom datasets
-- Download generated plots and analysis results
-
-### 6. Advanced Streaming Features
-- Real-time streaming of R code execution output
-- Progress monitoring for long-running operations
-- Environment variable configuration for R sessions
-- Directory-based file uploading and downloading
-- Command-line interface for easy usage
-
-## Example Use Cases
-
-### Basic Data Analysis
-```
-npm run llm "Generate summary statistics and visualizations for the iris dataset"
-```
-
-### Interactive Session
-```
-npm run interactive
-# Then follow the prompts to specify your data analysis tasks
-```
-
-### Statistical Modeling
-```
-npm run modeling "Build a random forest model to predict mpg using the mtcars dataset"
+/r_interpreter
+├── /backend                # Python FastAPI backend
+│   ├── /app                # Main application module
+│   ├── /api                # API routes and endpoints
+│   ├── /models             # Data models and schemas
+│   ├── /services           # Business logic services
+│   └── /utils              # Utility functions
+│
+├── /frontend               # Next.js frontend
+│   ├── /src
+│   │   ├── /app            # Next.js app router
+│   │   ├── /components     # UI components
+│   │   ├── /lib            # Frontend utilities
+│   │   └── /types          # TypeScript type definitions
+│   └── /public             # Static assets
+│
+└── run.sh                  # Combined startup script
 ```
 
-### Custom Dataset Analysis
-```
-npm run upload
-# Follow the prompts to upload your data file and analyze it
-```
+## API Endpoints
 
-### Complete Analysis Workflow
-```
-# Analyze a sample dataset with default analysis request
-npm run analyze
+- `POST /api/conversation`: Process a user message and generate a response
+- `POST /api/sandbox/execute`: Execute R code in the sandbox
+- `POST /api/sandbox/upload-file`: Upload a file to the sandbox
+- `GET /api/sandbox/info`: Get information about the sandbox environment
 
-# Analyze your own dataset with a custom analysis request
-npm run analyze /path/to/your/data.csv "Perform clustering analysis and visualize the results"
-```
+## Component Interactions
 
-### Advanced CLI Usage
-```
-# Interactive R session with LLM assistance
-npm run r -- interactive
+1. User enters a natural language query or uploads a file
+2. The query/file is processed by the backend
+3. Claude API generates R code based on the query and context
+4. The generated code is executed in the E2B sandbox
+5. Results (output, plots, file operations) are returned to the frontend
+6. The UI displays the response, including any visualizations
 
-# Run from a prompt with data directory
-npm run r -- prompt --prompt "Analyze the CSV files in the data directory" --data ./examples/data
+## Technical Details
 
-# Execute a sample R script with example data
-npm run r -- run --file ./examples/sample_analysis.R --data ./examples/data --output ./results
-```
+### Sandbox Persistence
+- Each conversation maintains a persistent R environment
+- Package installations and data operations persist within a conversation
+- Starting a new conversation creates a fresh environment
 
-### Rendering R Markdown Reports
-```
-# First, copy the R Markdown template to the data directory
-mkdir -p data_input
-cp ./examples/report_template.Rmd data_input/
+### File Handling
+- Uploaded files are stored in an "uploads" directory in the sandbox
+- Files can be processed using standard R packages (readr, readxl, etc.)
+- Analysis results can be saved as new files
 
-# Then run the render script with the data and R Markdown template
-npm run r -- run --file ./examples/render_report.R --data ./data_input --output ./html_reports
-```
+### Package Management
+- R packages are installed from CRAN repositories
+- Common packages for data science are available
+- Installation happens within the sandbox environment
 
-## Original Testing Features
+## Contributing
 
-### 1. Basic R Functionality
-- Creating an E2B sandbox
-- Running simple R code
+1. Fork the repository
+2. Create a feature branch: `git checkout -b feature-name`
+3. Commit your changes: `git commit -m 'Add feature'`
+4. Push to the branch: `git push origin feature-name`
+5. Submit a pull request
 
-### 2. Advanced Data Visualization with ggplot2
-- Installing and loading R packages
-- Data manipulation with dplyr
-- Creating publication-quality visualizations
+## License
 
-### 3. Meta-Analysis
-- Specialized statistical methods
-- Forest plots and funnel plots
-- Heterogeneity tests
-
-## Troubleshooting
-
-If you encounter errors:
-
-1. E2B API key issues:
-   - Ensure you have registered at [https://e2b.dev](https://e2b.dev)
-   - Verify your API key is correctly set in the .env file
-
-2. LLM API key issues:
-   - Check that you've added the correct API keys to the .env file
-   - Verify the LLM_PROVIDER setting matches the API key you've provided
-
-3. Execution timeouts:
-   - For complex modeling tasks, you may need to increase the timeout in the code
+[MIT License](LICENSE)

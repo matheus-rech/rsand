@@ -1,0 +1,44 @@
+version: '3'
+
+services:
+  # Python backend service
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      - E2B_API_KEY=${E2B_API_KEY}
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - SANDBOX_TIMEOUT_MS=60000
+      - LOG_LEVEL=info
+    restart: unless-stopped
+    volumes:
+      - ./backend:/app
+    networks:
+      - r-interpreter-network
+
+  # Next.js frontend service
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_BACKEND_API_URL=http://backend:8000
+    depends_on:
+      - backend
+    restart: unless-stopped
+    volumes:
+      - ./frontend:/app
+      # Exclude node_modules from volume mounting
+      - /app/node_modules
+    networks:
+      - r-interpreter-network
+
+networks:
+  r-interpreter-network:
+    driver: bridge
