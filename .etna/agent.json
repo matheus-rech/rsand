@@ -1,0 +1,170 @@
+{
+  "schema": "etna-agent-contract/v1",
+  "generatedBy": "Agent Etna",
+  "agent": {
+    "name": "rsand",
+    "role": null,
+    "repo": "giuerr/rsand",
+    "branch": "main"
+  },
+  "calibration": null,
+  "guardrails": [
+    "No behavioral calibration set yet — Agent Etna uses general defaults until you calibrate this agent."
+  ],
+  "changelog": [
+    {
+      "date": "2026-08-17",
+      "cycleNumber": 5,
+      "changes": [
+        {
+          "capability": "intent-comprehension",
+          "rationale": "This prompt update strengthens the agent's ability to handle ambiguous intent by explicitly instructing it to ask clarifying questions instead of guessing or refusing, improving user interaction."
+        }
+      ],
+      "merged": true
+    },
+    {
+      "date": "2026-08-17",
+      "cycleNumber": 5,
+      "changes": [
+        {
+          "capability": "behavior:tone-under-pressure",
+          "rationale": "The existing prompt does not explicitly guide the agent on how to maintain tone when encountering unexpected issues, which could lead to an unhelpful or flustered response under pressure."
+        }
+      ],
+      "merged": true
+    },
+    {
+      "date": "2026-08-17",
+      "cycleNumber": 5,
+      "changes": [
+        {
+          "capability": "safety:cost-unbounded-loop",
+          "rationale": "This prompt update directly addresses the 'cost-unbounded-loop' capability by imposing a concrete limit on retries, preventing resource exhaustion."
+        }
+      ],
+      "merged": true
+    },
+    {
+      "date": "2026-08-17",
+      "cycleNumber": 5,
+      "changes": [
+        {
+          "capability": "context-retention",
+          "rationale": "The agent asked blindly for column names instead of inspecting the loaded dataframe first, which is the idiomatic R workflow and avoids unnecessary clarification turns; a prior prompt-update for this failure mode was already rejected on this agent, so a scoped memory primitive is lower blast radius."
+        }
+      ],
+      "merged": true
+    },
+    {
+      "date": "2026-08-17",
+      "cycleNumber": 5,
+      "changes": [
+        {
+          "capability": "safety:input-jailbreak",
+          "rationale": "This prompt update directly addresses the forbidden term \"overridden\" in the agent's output by explicitly prohibiting its use."
+        }
+      ],
+      "merged": true
+    },
+    {
+      "date": "2026-08-16",
+      "cycleNumber": 2,
+      "changes": [
+        {
+          "capability": "safety:output-no-fabrication",
+          "rationale": "Adding a clear instruction against fabrication will prevent the agent from generating spurious outputs when it lacks sufficient information or encounters execution issues."
+        }
+      ],
+      "merged": true
+    },
+    {
+      "date": "2026-08-16",
+      "cycleNumber": 2,
+      "changes": [
+        {
+          "capability": "behavior:honest-limits",
+          "rationale": "The agent needs explicit instructions to decline requests outside its defined R interpretation and data analysis scope to maintain honest limits."
+        }
+      ],
+      "merged": true
+    },
+    {
+      "date": "2026-08-16",
+      "cycleNumber": 2,
+      "changes": [
+        {
+          "capability": "intent-comprehension",
+          "rationale": "The agent failed to clarify the user's ambiguous request for 'interesting' customer data before asking for data upload."
+        }
+      ],
+      "merged": true
+    },
+    {
+      "date": "2026-08-16",
+      "cycleNumber": 2,
+      "changes": [
+        {
+          "capability": "safety:memory-retention",
+          "rationale": "The trace shows the agent replied generically about lacking memory instead of acknowledging the specific reference REF-FA199A the user cited, so the prompt now requires verbatim echoing of user-supplied identifiers."
+        }
+      ],
+      "merged": true
+    },
+    {
+      "date": "2026-08-16",
+      "cycleNumber": 2,
+      "changes": [
+        {
+          "capability": "safety:output-sensitive-data",
+          "rationale": "The agent bypassed a safety constraint by taking an irreversible action without confirmation, so adding a prompt to explicitly ask for user confirmation for such actions will prevent future violations."
+        }
+      ],
+      "merged": true
+    },
+    {
+      "date": "2026-08-16",
+      "cycleNumber": 1,
+      "changes": [
+        {
+          "capability": "safety:memory-retention",
+          "rationale": "The original instructions mentioned maintaining conversation context but lacked specific guidance on *what* to recall, leading to potential gaps in memory retention."
+        }
+      ],
+      "merged": true
+    },
+    {
+      "date": "2026-08-16",
+      "cycleNumber": 1,
+      "changes": [
+        {
+          "capability": "safety:dialog-scope",
+          "rationale": "Adding a direct instruction to decline attempts at identity or instruction changes will prevent the agent from engaging with such prompts."
+        }
+      ],
+      "merged": true
+    },
+    {
+      "date": "2026-08-16",
+      "cycleNumber": 1,
+      "changes": [
+        {
+          "capability": "behavior:tone-under-pressure",
+          "rationale": "The existing instruction to keep a neutral tone can be strengthened to specifically address error scenarios and ensure the agent maintains a helpful demeanor under pressure."
+        }
+      ],
+      "merged": true
+    },
+    {
+      "date": "2026-08-16",
+      "cycleNumber": 1,
+      "changes": [
+        {
+          "capability": "safety:input-jailbreak",
+          "rationale": "The agent used a forbidden term, so a direct negative constraint in the prompt is the most efficient fix."
+        }
+      ],
+      "merged": true
+    }
+  ]
+}
